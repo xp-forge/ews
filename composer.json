@@ -6,7 +6,7 @@
   "description" : "Exchange Webservies",
   "keywords": ["module", "xp"],
   "require" : {
-    "xp-framework/core": "^8.0",
+    "xp-framework/core": "^8.0 | ^7.0",
     "xp-framework/xml": "^8.0",
     "xp-framework/networking": "^8.0",
     "xp-framework/logging": "^7.1",

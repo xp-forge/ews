@@ -18,9 +18,21 @@ Entry point
 use ews\ExchangeService;
 
 $ews= new ExchangeService('https://user:pass@owa.example.com/EWS/Exchange.asmx');
+$result= $ews->invoke(...);
+```
+
+TimeZones
+---------
+
+By default, the local timezone determined via `TimeZone::getLocal()` is used as context for all requests. This may be changed:
+
+```php
+// Use an Olson identifier or a Windows timezone ID
+$ews->useTimeZone('Europe/Berlin');
 $ews->useTimeZone('W. Europe Standard Time');
 
-$result= $ews->invoke(...);
+// ...or a TimeZone instance
+$ews->useTimeZone(TimeZone::getLocal());
 ```
 
 *:warning: This is work in progress!*

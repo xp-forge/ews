@@ -4,6 +4,7 @@ use peer\URL;
 use ews\types\RequestServerVersion;
 use ews\errors\FaultNamed;
 use lang\reflect\Package;
+use util\TimeZone;
 
 /**
  * Exchange Service entry point class
@@ -39,6 +40,7 @@ class ExchangeService implements \util\log\Traceable {
       CURLOPT_HTTPAUTH       => CURLAUTH_NTLM
     ]);
     $this->version= new RequestServerVersion($version);
+    $this->useTimeZone(TimeZone::getLocal());
   }
 
   /**
@@ -53,12 +55,18 @@ class ExchangeService implements \util\log\Traceable {
   /**
    * Use a given timezone
    *
-   * @param  string $timeZone
+   * @param  string|util.TimeZone $timeZone
    * @return self This
    */
   public function useTimeZone($timeZone) {
+    if ($timeZone instanceof TimeZone) {
+      $id= TimeZones::named($timeZone->getName());
+    } else {
+      $id= TimeZones::named($timeZone, $timeZone);
+    }
+
     $this->timeZone= Object::typed('ews.types.TimeZoneContext')
-      ->with(Object::typed('ews.types.TimeZoneDefinition', ['Id' => $timeZone]))
+      ->with(Object::typed('ews.types.TimeZoneDefinition', ['Id' => $id]))
     ;
     return $this;
   }

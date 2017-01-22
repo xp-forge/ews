@@ -8,11 +8,12 @@ use ews\Object;
 use ews\Result;
 
 class ParseInto implements ParserCallback {
-  const CHILDREN = 0;
-  const CONTENT  = 1;
-  const MEMBERS  = 2;
-  const NAME     = 0;
-  const ELEMENT  = 1;
+  const CHILDREN  = 0;
+  const CONTENT   = 1;
+  const MEMBERS   = 2;
+  const NAMESPACE = 3;
+  const NAME      = 0;
+  const ELEMENT   = 1;
 
   private static $packages;
 
@@ -37,6 +38,8 @@ class ParseInto implements ParserCallback {
   }
 
   public function onStartElement($parser, $name, $attributes) {
+    $namespaces= $this->namespaces;
+
     $members= [];
     foreach ($attributes as $attribute => $value) {
       if (0 === strncmp($attribute, 'xmlns', 5)) {
@@ -47,9 +50,10 @@ class ParseInto implements ParserCallback {
     }
 
     array_unshift($this->nodes, [
-      self::CHILDREN => [],
-      self::CONTENT  => '',
-      self::MEMBERS  => $members
+      self::CHILDREN  => [],
+      self::CONTENT   => '',
+      self::MEMBERS   => $members,
+      self::NAMESPACE => $namespaces
     ]);
   }
 
@@ -57,6 +61,8 @@ class ParseInto implements ParserCallback {
     if ($p= strpos($name, ':')) {
       $package= self::$packages[$this->namespaces[substr($name, 0, $p)]];
       $name= substr($name, $p + 1);
+    } else if (isset($this->namespaces[0])) {
+      $package= self::$packages[$this->namespaces[0]];
     } else {
       $package= Package::forName('ews');
     }
@@ -65,6 +71,7 @@ class ParseInto implements ParserCallback {
     if ($package->providesClass($name)) {
       $target= $package->loadClass($name)->newInstance()->pass($node[self::MEMBERS]);
     } else if ($node[self::CHILDREN] || $node[self::MEMBERS]) {
+      // DEBUG echo "*** Unknown object ", $package->getName().'.'.$name, "\n";
       $target= Object::typed($package->getName().'.'.$name, $node[self::MEMBERS]);
     } else {
       $target= Value::typed($package->getName().'.'.$name, trim($node[self::CONTENT]));
@@ -74,6 +81,7 @@ class ParseInto implements ParserCallback {
       $target->with($element[self::ELEMENT], $element[self::NAME]);
     }
     $this->nodes[0][self::CHILDREN][]= [self::NAME => $name, self::ELEMENT => $target];
+    $this->namespaces= $node[self::NAMESPACE];
   }
 
   public function onCData($parser, $cdata) {

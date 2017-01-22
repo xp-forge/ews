@@ -56,13 +56,23 @@ class EnvelopeTest extends \unittest\TestCase {
   #[@test]
   public function parse_response() {
     $response= '
-      <m:FindItemResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
+      <m:FindItemResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages">
         <m:ResponseMessages>
-          <m:FindItemResponseMessage ResponseClass="Success">        
-            <m:ResponseCode>NoError</m:ResponseCode>
-            <m:RootFolder TotalItemsInView="0" IncludesLastItemInRange="true"/>
-          </m:FindItemResponseMessage>
+          <m:FindItemResponseMessage ResponseClass="Success"/>        
         </m:ResponseMessages>
+      </m:FindItemResponse>
+    ';
+
+    $this->assertInstanceOf(FindItemResponse::class, Envelope::parse($this->envelope($response))->body()->message());
+  }
+
+  #[@test]
+  public function parse_response_namespace_handling() {
+    $response= '
+      <m:FindItemResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages">
+        <ResponseMessages xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">
+          <FindItemResponseMessage ResponseClass="Success"/>
+        </ResponseMessages>
       </m:FindItemResponse>
     ';
 

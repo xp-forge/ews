@@ -8,7 +8,7 @@ abstract class Element implements \lang\Value {
    *
    * @param  string $type
    */
-  public function __construct(string $type= null) {
+  public function __construct($type= null) {
     $this->type= $type ?: nameof($this);
   }
 

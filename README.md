@@ -17,7 +17,10 @@ Entry point
 ```php
 use ews\ExchangeService;
 
-$ews= new ExchangeService('https://'.getenv('USER').':'.getenv('PASS').'@owa.example.com/EWS/Exchange.asmx');
+$ews= new ExchangeService('https://user:pass@owa.example.com/EWS/Exchange.asmx');
+$ews->useTimeZone('W. Europe Standard Time');
+
+$result= $ews->invoke(...);
 ```
 
 *:warning: This is work in progress!*

@@ -15,6 +15,7 @@ class ExchangeService implements \util\log\Traceable {
   private static $errors;
   private $handle, $version;
   private $trace= null;
+  private $timeZone= null;
 
   static function __static() {
     self::$errors= Package::forName('ews.errors');
@@ -50,6 +51,19 @@ class ExchangeService implements \util\log\Traceable {
   }
 
   /**
+   * Use a given timezone
+   *
+   * @param  string $timeZone
+   * @return self This
+   */
+  public function useTimeZone($timeZone) {
+    $this->timeZone= Object::typed('ews.types.TimeZoneContext')
+      ->with(Object::typed('ews.types.TimeZoneDefinition', ['Id' => $timeZone]))
+    ;
+    return $this;
+  }
+
+  /**
    * Invoke 
    *
    * @param  ews.Element $message
@@ -57,7 +71,7 @@ class ExchangeService implements \util\log\Traceable {
    * @throws ews.errors.Fault
    */
   public function invoke($message) {
-    $request= new Envelope(new Header($this->version), new Body($message));
+    $request= new Envelope(new Header($this->version, $this->timeZone), new Body($message));
     curl_setopt($this->handle, CURLOPT_HTTPHEADER, [
       'Connection: Keep-Alive',
       'User-Agent: XP/ews',

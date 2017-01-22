@@ -9,7 +9,7 @@ class Header extends Object {
    */
   public function __construct(... $members) {
     parent::__construct(nameof($this));
-    $this->members= $members;
+    $this->members= array_filter($members);
   }
 
   /** @return ews.types.ServerVersionInfo */

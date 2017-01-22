@@ -37,6 +37,16 @@ class ListOf extends Element {
     return $this;
   }
 
+  /**
+   * Adds an element
+   *
+   * @param  ews.Element $element
+   * @return void
+   */
+  public function add($element) {
+    $this->elements[]= $element;
+  }
+
   /** @return [:ews.Element] */
   public function elements() { return $this->elements; }
 

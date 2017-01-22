@@ -5,7 +5,8 @@ use lang\ElementNotFoundException;
 /**
  * Maps Olson timezones to Windows timezones
  *
- * @see   http://unicode.org/repos/cldr/trunk/common/supplemental/windowsZones.xml
+ * @test  xp://ews.unittest.TimeZonesTest
+ * @see   https://github.com/xp-forge/ews/issues/1
  */
 abstract class TimeZones {
   private static $mapping= [

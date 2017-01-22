@@ -59,6 +59,7 @@ class ExchangeService implements \util\log\Traceable {
   /**
    * Use a given timezone
    *
+   * @see    https://msdn.microsoft.com/en-us/library/office/ff406132(v=exchg.140).aspx
    * @param  string|util.TimeZone $timeZone
    * @return self This
    */

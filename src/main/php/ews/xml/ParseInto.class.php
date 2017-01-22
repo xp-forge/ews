@@ -8,12 +8,12 @@ use ews\Object;
 use ews\Result;
 
 class ParseInto implements ParserCallback {
-  const CHILDREN  = 0;
-  const CONTENT   = 1;
-  const MEMBERS   = 2;
-  const NAMESPACE = 3;
-  const NAME      = 0;
-  const ELEMENT   = 1;
+  const CHILDREN   = 0;
+  const CONTENT    = 1;
+  const MEMBERS    = 2;
+  const NAMESPACES = 3;
+  const NAME       = 0;
+  const ELEMENT    = 1;
 
   private static $packages;
 
@@ -50,10 +50,10 @@ class ParseInto implements ParserCallback {
     }
 
     array_unshift($this->nodes, [
-      self::CHILDREN  => [],
-      self::CONTENT   => '',
-      self::MEMBERS   => $members,
-      self::NAMESPACE => $namespaces
+      self::CHILDREN   => [],
+      self::CONTENT    => '',
+      self::MEMBERS    => $members,
+      self::NAMESPACES => $namespaces
     ]);
   }
 
@@ -81,7 +81,7 @@ class ParseInto implements ParserCallback {
       $target->with($element[self::ELEMENT], $element[self::NAME]);
     }
     $this->nodes[0][self::CHILDREN][]= [self::NAME => $name, self::ELEMENT => $target];
-    $this->namespaces= $node[self::NAMESPACE];
+    $this->namespaces= $node[self::NAMESPACES];
   }
 
   public function onCData($parser, $cdata) {

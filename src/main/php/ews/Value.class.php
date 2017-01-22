@@ -8,7 +8,7 @@ use util\Objects;
  * @test  xp://ews.unittest.ValueTest
  */
 class Value extends Element {
-  private $string= '';
+  protected $string= '';
 
   /**
    * Creates a new value with a given string

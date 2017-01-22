@@ -8,7 +8,7 @@ use util\Objects;
  * @test  xp://ews.unittest.ListOfTest
  */
 class ListOf extends Element {
-  private $elements= [];
+  protected $elements= [];
 
   /**
    * Creates a new object with a given name

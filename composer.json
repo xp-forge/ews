@@ -1,0 +1,21 @@
+{
+  "name" : "xp-forge/ews",
+  "type" : "library",
+  "homepage" : "http://xp-framework.net/",
+  "license" : "BSD-3-Clause",
+  "description" : "Exchange Webservies",
+  "keywords": ["module", "xp"],
+  "require" : {
+    "xp-framework/core": "^8.0",
+    "xp-framework/xml": "^8.0",
+    "xp-framework/networking": "^8.0",
+    "xp-framework/logging": "^7.1",
+    "php" : ">=5.6.0"
+  },
+  "require-dev" : {
+    "xp-framework/unittest": "^7.1"
+  },
+  "autoload" : {
+    "files" : ["src/main/php/autoload.php"]
+  }
+}

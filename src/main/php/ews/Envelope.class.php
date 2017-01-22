@@ -56,7 +56,8 @@ class Envelope extends Object {
       throw new IllegalArgumentException('Illegal emit style '.$style);
     }
 
-    return self::$styles[$style](self::$emitter->emit($this));
+    $func= self::$styles[$style];
+    return $func(self::$emitter->emit($this));
   }
 
   /** @return ews.Fault */

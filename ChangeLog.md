@@ -3,6 +3,8 @@ Exchange Webservices change log
 
 ## ?.?.? / ????-??-??
 
+## 0.2.0 / 2017-01-22
+
 * Made supplying well-known `/EWS/Exchange.asmx` path in `ews.ExchangeService`
   constructor optional.
   @thekid

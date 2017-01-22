@@ -30,6 +30,10 @@ class ExchangeService implements \util\log\Traceable {
    */
   public function __construct($endpoint, $version= 'Exchange2010_SP1') {
     $url= $endpoint instanceof URL ? $endpoint : new URL($endpoint);
+    if ('/' === $url->getPath('/')) {
+      $url->setPath('/EWS/Exchange.asmx');
+    }
+
     $this->handle= curl_init($url->getURL());
     curl_setopt_array($this->handle, [
       CURLOPT_SSL_VERIFYPEER => false,

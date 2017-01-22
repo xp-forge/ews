@@ -17,7 +17,7 @@ Entry point
 ```php
 use ews\ExchangeService;
 
-$ews= new ExchangeService('https://user:pass@owa.example.com/EWS/Exchange.asmx');
+$ews= new ExchangeService('https://user:pass@owa.example.com/');
 $result= $ews->invoke(...);
 ```
 
